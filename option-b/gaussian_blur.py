@@ -27,21 +27,6 @@ gaussian_matrix_weight = 16
 stride = 1
 
 # Input image
-
-
-# image_array = [
-#  [  0,  10,  20,  30,  40,  50,  60,  70,  80,  90],
-#  [ 10,  20,  30,  40,  50,  60,  70,  80,  90, 100],
-#  [ 20,  30,  40,  50,  60,  70,  80,  90, 100, 110],
-#  [ 30,  40,  50,  60,  70,  80,  90, 100, 110, 120],
-#  [ 40,  50,  60,  70,  80,  90, 100, 110, 120, 130],
-#  [ 50,  60,  70,  80,  90, 100, 110, 120, 130, 140],
-#  [ 60,  70,  80,  90, 100, 110, 120, 130, 140, 150],
-#  [ 70,  80,  90, 100, 110, 120, 130, 140, 150, 160],
-#  [ 80,  90, 100, 110, 120, 130, 140, 150, 160, 170],
-#  [ 90, 100, 110, 120, 130, 140, 150, 160, 170, 200]
-# ]
-
 image_array = datasets.ascent()
 
 # Apply Gaussian filter
@@ -49,7 +34,6 @@ image_array = datasets.ascent()
 
 # Add padding to the image
 padded_image = np.pad(image_array, pad_width=1, mode='edge')
-
 blurred_image = np.zeros((512, 512))
 
 for row in range(0, len(image_array)):
