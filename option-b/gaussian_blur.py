@@ -20,10 +20,10 @@ stride = 1
 
 # Functions
 # Apply Gaussian filter: Using simple 3x3 normalised gaussian kernal
-def gaussian_blur(image, gaussian_matrix, stride):
+def gaussian_blur_kernal(image, gaussian_matrix, stride):
     # Create blank array to store the blurred image
     blurred_image = np.zeros(image_array.shape)
-    print(blurred_image.shape)
+
     # Add padding to the image
     padded_image = np.pad(image_array, pad_width=1, mode='edge')
 
@@ -51,6 +51,49 @@ def gaussian_blur(image, gaussian_matrix, stride):
             ) // gaussian_matrix_weight # Normalise the image to ensure pixel value is between 0-255
     return blurred_image
 
+def gaussian_blur_1d(image, axis):
+    # Create blank array to store the blurred image
+    blurred_image = np.zeros(image_array.shape)
+
+    # Add padding to the image
+    padded_image = np.pad(image_array, pad_width=1, mode='edge')
+
+    # 1D Gaussian kernel
+    gaussian_1d = np.array([1, 2, 1])
+    gaussian_1d_weight = 4
+
+    if axis == 0:  # Vertical blur
+        for row in range(0, len(image_array)):
+            for pixel in range(0, len(image_array[row]), stride):
+
+                # Add +1 offset to access the correct part of the padded image
+                padded_row = row + 1
+                padded_col = pixel + 1
+
+                # Apply the gaussian matrix to the pixel and its surrounding neighbours
+                blurred_image[row][pixel] = (
+                      padded_image[padded_row-1][padded_col] * gaussian_1d[0]
+                    + padded_image[padded_row  ][padded_col] * gaussian_1d[1] # Center pixel
+                    + padded_image[padded_row+1][padded_col] * gaussian_1d[2]
+                ) // gaussian_1d_weight  # Normalise the image to ensure pixel value is between 0-255
+
+    elif axis == 1:  # Horizontal blur
+        for row in range(0, len(image_array)):
+            for pixel in range(0, len(image_array[row]), stride):
+
+                # Add +1 offset to access the correct part of the padded image
+                padded_row = row + 1
+                padded_col = pixel + 1
+
+                # Apply the gaussian matrix to the pixel and its surrounding neighbours
+                blurred_image[row][pixel] = (
+                      padded_image[padded_row][padded_col-1] * gaussian_1d[0]
+                    + padded_image[padded_row][padded_col  ] * gaussian_1d[1] # Center pixel
+                    + padded_image[padded_row][padded_col+1] * gaussian_1d[2]
+                ) // gaussian_1d_weight  # Normalise the image to ensure pixel value is between 0-255
+
+    return blurred_image
+
 # Main code
 # Input image
 image_array = datasets.ascent()
@@ -59,11 +102,13 @@ image_array = datasets.ascent()
 # Create output of a row of 3 images
 fig = plt.figure()
 # plt.gray()                # Display in grayscale
-ax1 = fig.add_subplot(131)  # Left side  - Original
-ax2 = fig.add_subplot(132)  # Middle     - Liz's gaussian
-ax3 = fig.add_subplot(133)  # Right side - Pre-made gaussian
+ax1 = fig.add_subplot(141)  # Left side  - Original
+ax2 = fig.add_subplot(142)  #              Liz's gaussian
+ax3 = fig.add_subplot(143)  #              Liz's 1d gaussian
+ax4 = fig.add_subplot(144)  # Right side - Pre-made gaussian
 
 ax1.imshow(image_array)
-ax2.imshow(gaussian_blur(image_array, gaussian_matrix, stride))
-ax3.imshow(gaussian_filter(image_array, sigma=1))
+ax2.imshow(gaussian_blur_kernal(image_array, gaussian_matrix, stride))
+ax3.imshow(gaussian_blur_1d(gaussian_blur_1d(image_array, 0), 1))
+ax4.imshow(gaussian_filter(image_array, sigma=1))
 plt.show()
