@@ -34,15 +34,13 @@ def gaussian_blur_kernal(image_array, gaussian_matrix, stride):
     padded_image = np.pad(image_array, pad_width=1, mode="edge")
 
     # Loop over every pixel in the image and apply the gaussian matrix
-    for row in range(0, len(image_array)):
-        for pixel in range(0, len(image_array[row]), stride):
-
+    for row_idx, row in enumerate(image_array):
+        for pixel_idx in range(0, len(row), stride):
             # Add +1 offset to access the correct part of the padded image
-            padded_row = row + 1
-            padded_col = pixel + 1
-
+            padded_row = row_idx + 1
+            padded_col = pixel_idx + 1
             # Apply the gaussian matrix to the pixel and its surrounding neighbours
-            blurred_image[row][pixel] = (
+            blurred_image[row_idx][pixel_idx] = (
                 padded_image[padded_row - 1][padded_col - 1] * gaussian_matrix[0][0]
                 + padded_image[padded_row - 1][padded_col] * gaussian_matrix[0][1]
                 + padded_image[padded_row - 1][padded_col + 1] * gaussian_matrix[0][2]
@@ -72,15 +70,13 @@ def gaussian_blur_1d(image_array, axis, stride):
     gaussian_1d_weight = 4
 
     if axis == 0:  # Vertical blur
-        for row in range(0, len(image_array)):
-            for pixel in range(0, len(image_array[row]), stride):
-
+        for row_idx, row in enumerate(image_array):
+            for pixel_idx in range(0, len(row), stride):
                 # Add +1 offset to access the correct part of the padded image
-                padded_row = row + 1
-                padded_col = pixel + 1
-
+                padded_row = row_idx + 1
+                padded_col = pixel_idx + 1
                 # Apply the gaussian matrix to the pixel and its surrounding neighbours
-                blurred_image[row][pixel] = (
+                blurred_image[row_idx][pixel_idx] = (
                     padded_image[padded_row - 1][padded_col] * gaussian_1d[0]
                     + padded_image[padded_row][padded_col]
                     * gaussian_1d[1]  # Center pixel
@@ -88,23 +84,19 @@ def gaussian_blur_1d(image_array, axis, stride):
                 ) // gaussian_1d_weight  # Normalise the image to ensure pixel value is 0-255
 
     elif axis == 1:  # Horizontal blur
-        for row in range(0, len(image_array)):
-            for pixel in range(0, len(image_array[row]), stride):
-
+        for row_idx, row in enumerate(image_array):
+            for pixel_idx in range(0, len(row), stride):
                 # Add +1 offset to access the correct part of the padded image
-                padded_row = row + 1
-                padded_col = pixel + 1
-
+                padded_row = row_idx + 1
+                padded_col = pixel_idx + 1
                 # Apply the gaussian matrix to the pixel and its surrounding neighbours
-                blurred_image[row][pixel] = (
+                blurred_image[row_idx][pixel_idx] = (
                     padded_image[padded_row][padded_col - 1] * gaussian_1d[0]
                     + padded_image[padded_row][padded_col]
                     * gaussian_1d[1]  # Center pixel
                     + padded_image[padded_row][padded_col + 1] * gaussian_1d[2]
-                ) // gaussian_1d_weight  # Normalise the image to ensure pixel value is 0-255
-
+                ) // gaussian_1d_weight # Normalise the image to ensure pixel value is 0-255
     return blurred_image
-
 
 # Main code
 # Input image

@@ -114,3 +114,15 @@ https://daily.dev/blog/api-gateway-for-grpc-microservices
 
 
 
+
+\ Simple AIM
+My first step is setting up an EC2 instance, which will run our gRPC web server. - Amazon Linux 2 AMI on 64-bit (x86) 2. Choose t2.micro
+
+Now we have a web server (an added thing would be an ALB for EC2 instance ) we can add a load balancer for extra points
+
+(IAM)
+
+https://www.kvwu.io/posts/set-up-grpc-with-aws/
+
+
+
