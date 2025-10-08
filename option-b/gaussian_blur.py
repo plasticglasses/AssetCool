@@ -69,7 +69,7 @@ def gaussian_blur_1d(image_array, axis, stride):
     gaussian_1d = np.array([1, 2, 1])
     gaussian_1d_weight = 4
 
-    if axis == 0:  # Vertical blur
+    if axis == 0:  # Vertical blur, iterates over rows
         for row_idx, row in enumerate(image_array):
             for pixel_idx in range(0, len(row), stride):
                 # Add +1 offset to access the correct part of the padded image
@@ -83,7 +83,7 @@ def gaussian_blur_1d(image_array, axis, stride):
                     + padded_image[padded_row + 1][padded_col] * gaussian_1d[2]
                 ) // gaussian_1d_weight  # Normalise the image to ensure pixel value is 0-255
 
-    elif axis == 1:  # Horizontal blur
+    elif axis == 1:  # Horizontal blur, iterates over columns
         for row_idx, row in enumerate(image_array):
             for pixel_idx in range(0, len(row), stride):
                 # Add +1 offset to access the correct part of the padded image

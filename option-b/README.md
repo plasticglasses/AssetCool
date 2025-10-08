@@ -13,5 +13,5 @@ b. Are there any structural properties of the Gaussian kernel and convolution th
 # Please submit all code and a pdf of the presentation in a zipped folder the evening before the interview.
 
 # Assumptions
-- An image will be passed through via a funtion but a default image is fine - AssetCool won't be sending me one to use
+- An image will be passed through via a funtion 512x512
 - Image should be blurred in grayscale
